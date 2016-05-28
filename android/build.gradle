@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "23.0.1"
-    compileSdkVersion 21
+    buildToolsVersion "23.0.3"
+    compileSdkVersion 23
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.sml"
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 23
     }
 }
 
