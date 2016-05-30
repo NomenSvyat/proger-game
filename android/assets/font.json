@@ -1,0 +1,14 @@
+{
+  com.badlogic.gdx.graphics.g2d.BitmapFont:
+{
+  normaltext: { file: codefont.fnt }
+},
+  com.badlogic.gdx.graphics.Color:
+{
+  white: { hex: "FFFFFF" }
+},
+  com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle:
+{
+  default: { font: normaltext, fontColor: white}
+}
+}
