@@ -53,20 +53,21 @@ public class CodeRepository implements ICodeRepository {
     }
 
     public File getNextFile() {
-        List<File> files = getFiles();
-        if (files != null && files.size() > 0) {
-            try {
-                next += 1;
-                return files.get(next - 1);
-            }
-            catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
-                next = 1;
-                return files.get(0);
-            }
-        } else {
-            return null;
-        }
+        return null;
+//        List<File> files = getFiles();
+//        if (files != null && files.size() > 0) {
+//            try {
+//                next += 1;
+//                return files.get(next - 1);
+//            }
+//            catch (IndexOutOfBoundsException e) {
+//                e.printStackTrace();
+//                next = 1;
+//                return files.get(0);
+//            }
+//        } else {
+//            return null;
+//        }
     }
 
     public void clearRepository() {

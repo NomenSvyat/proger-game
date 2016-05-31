@@ -29,7 +29,7 @@ public class ProgerGame extends ApplicationAdapter {
         menu.init();
 
         level = new Level();
-        level.init();
+        level.init(codeRepository);
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
