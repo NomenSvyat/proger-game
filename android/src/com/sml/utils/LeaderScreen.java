@@ -25,7 +25,10 @@ public class LeaderScreen implements ILeaderScreen {
     @Override
     public void showLeaderScreen(int score) {
         if (context != null) {
-            context.startActivity(new Intent(context, LeaderActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            Intent intent = new Intent(context, LeaderActivity.class);
+            intent.putExtra("score", score);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
         }
     }
 }
