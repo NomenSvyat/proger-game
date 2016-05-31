@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.sml.GameWorldConsts;
 import com.sml.listeners.IBackgroundCode;
+import com.sml.utils.ICodeRepository;
 
 import java.io.File;
 
@@ -28,7 +29,8 @@ public class Level implements GameObject, IBackgroundCode{
     private int scores = -1;
     private String scoresStr = "Scores : 0";
     private BackgroundCode backgroundCode;
-    public void init() {
+
+    public void init(ICodeRepository repository) {
 
         /** Loading font(s) */
         font = new BitmapFont(Gdx.files.internal("numberFont.fnt"));
@@ -40,7 +42,7 @@ public class Level implements GameObject, IBackgroundCode{
 
         /** Background loading */
         backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-        backgroundCode = new BackgroundCode(font, screenWidth / 2, this);
+        backgroundCode = new BackgroundCode(font, screenWidth / 2, this, repository);
     }
 
     @Override

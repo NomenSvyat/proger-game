@@ -13,6 +13,6 @@ public class GameWorldConsts {
     public static final int SCREEN_HEIGHT = 600;
 
     public static final float TEXT_VELOCITY = -BACKGROUND_VELOCITY;
-    public static final float SPAWN_VELOCITY = 0.5f;
+    public static final float SPAWN_VELOCITY = 1f;
 
 }
