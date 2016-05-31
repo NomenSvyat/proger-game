@@ -1,15 +1,12 @@
 package com.sml.github;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.sml.models.Models;
 import com.sml.network.RestClient;
+import com.sml.repositories.CodeRepository;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -55,23 +52,8 @@ public class CodeWorker implements Runnable {
         }
 
         if (response.body() != null) {
-            saveToFile(response.body().string().replaceAll("\t", "    "));
+            CodeRepository.getInstance().saveCodeFile(response.body().string().replaceAll("\t", "    "));
         }
 
-    }
-    private void saveToFile(String contents) {
-        String fileName = String.valueOf(System.currentTimeMillis());
-        File outputFile = new File(Environment.getDataDirectory().getAbsolutePath(), "/com.sml.progergame/code/" + fileName);
-        if (!outputFile.exists())
-            outputFile.mkdirs();
-
-        try {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outputFile));
-            writer.write(contents, 0, contents.length());
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
