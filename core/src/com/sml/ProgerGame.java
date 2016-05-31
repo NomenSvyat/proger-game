@@ -45,23 +45,27 @@ public class ProgerGame extends ApplicationAdapter {
     private ForceApplier forceApplier;
     private PlayerCollisionListener playerCollisionListener;
     private PlayerLifeManager playerLifeManager;
+    private ILeaderScreen leaderScreen;
     private Bugs bugs;
 
     public ProgerGame(ICodeRepository codeRepository, IForceProvider forceProvider, ILeaderScreen leaderScreen) {
         this.codeRepository = codeRepository;
         this.forceProvider = forceProvider;
+        this.leaderScreen = leaderScreen;
     }
 
     @Override
     public void create() {
-        playerLifeManager = new PlayerLifeManager();
-        playerCollisionListener = new PlayerCollisionListener(playerLifeManager);
+
 
         menu = new Menu();
         menu.init();
 
         level = new Level();
         level.init();
+
+        playerLifeManager = new PlayerLifeManager(level);
+        playerCollisionListener = new PlayerCollisionListener(playerLifeManager);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);
@@ -77,7 +81,7 @@ public class ProgerGame extends ApplicationAdapter {
         debugRenderer = new Box2DDebugRenderer();
         disposables.add(debugRenderer);
 
-        playerActor = new PlayerActor(world, new Vector2(10, 240));
+        playerActor = new PlayerActor(world, new Vector2(GameWorldConsts.SCREEN_WIDTH / 2, GameWorldConsts.SCREEN_HEIGHT / 2));
         disposables.add(playerActor);
 
 
@@ -99,28 +103,30 @@ public class ProgerGame extends ApplicationAdapter {
 
         camera.update();
 
-        level.update(deltaTime);
-        batch.begin();
+        if (level.isGameOver()) {
+            leaderScreen.showLeaderScreen(level.getScores());
+        } else {
+            level.update(deltaTime);
+            batch.begin();
+            level.draw(batch, deltaTime);
+            batch.end();
 
-        level.draw(batch, deltaTime);
 
-        batch.end();
+            bugs.update(deltaTime);
+            playerActor.update(deltaTime);
 
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
 
-        bugs.update(deltaTime);
-        playerActor.update(deltaTime);
+            playerActor.draw(batch, deltaTime);
+            bugs.draw(batch, deltaTime);
 
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+            batch.end();
 
-        playerActor.draw(batch, deltaTime);
-        bugs.draw(batch, deltaTime);
+            doPhysicsStep(deltaTime);
 
-        batch.end();
-
-        doPhysicsStep(deltaTime);
-
-        debugRenderer.render(world, camera.combined);
+            debugRenderer.render(world, camera.combined);
+        }
     }
 
     @Override
