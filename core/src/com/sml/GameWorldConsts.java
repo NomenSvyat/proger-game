@@ -1,6 +1,7 @@
 package com.sml;
 
 public class GameWorldConsts {
+    public static final int PLAYER_LIFE_COUNT = 3;
     public static final float TIME_STEP = 1 / 300f;
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 2;
