@@ -36,16 +36,12 @@ public class LoginActivity extends Activity {
         loginText = (EditText) findViewById(R.id.login_text);
         passwordText = (EditText) findViewById(R.id.password_text);
         loginBtn = (Button) findViewById(R.id.login_btn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    login();
-                } else {
-                    AlertService.showMessage(LoginActivity.this, getString(R.string.bad_credentials_message));
-                }
-            }
-        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkSavedData();
     }
 
     private void login() {
@@ -81,9 +77,16 @@ public class LoginActivity extends Activity {
         SettingsService.getInstance().saveString(this, "credentials", creds);
         SettingsService.getInstance().saveString(this, "username", username);
 
+        fetchCodeFromGithub();
+    }
+
+    private void fetchCodeFromGithub() {
+        String username = SettingsService.getInstance().getString("username");
         String q = "size>64+user:" + username;
 
-        RestClient.getInstance().search(q).enqueue(new Callback<Models.FirstModel>() {
+        RestClient.getInstance()
+                .search(SettingsService.getInstance().getString("credentials"), q)
+                .enqueue(new Callback<Models.FirstModel>() {
             @Override
             public void onResponse(Call<Models.FirstModel> call, Response<Models.FirstModel> response) {
                 if (response.errorBody() == null) {
@@ -104,9 +107,34 @@ public class LoginActivity extends Activity {
         });
     }
 
-
     private boolean validate() {
         return !(loginText.getText().toString().equals("")
                 &&passwordText.getText().toString().equals(""));
+    }
+
+    private void checkSavedData() {
+        String creds = SettingsService.getInstance().getString("credentials");
+        if (!creds.isEmpty()) {
+            loginBtn.setText("PLAY");
+            passwordText.setVisibility(View.INVISIBLE);
+            loginText.setVisibility(View.INVISIBLE);
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fetchCodeFromGithub();
+                }
+            });
+        } else {
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (validate()) {
+                        login();
+                    } else {
+                        AlertService.showMessage(LoginActivity.this, getString(R.string.bad_credentials_message));
+                    }
+                }
+            });
+        }
     }
 }

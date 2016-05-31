@@ -1,5 +1,7 @@
 package com.sml.github;
 
+import com.sml.repositories.CodeRepository;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +22,7 @@ public class CodeFetcher {
     }
 
     public void fetch() {
+        CodeRepository.clearRepository();
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
         for (String url : urls) {
             Runnable worker = new CodeWorker(url);

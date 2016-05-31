@@ -5,6 +5,7 @@ import android.util.Log;
 import com.sml.models.Models;
 import com.sml.network.RestClient;
 import com.sml.repositories.CodeRepository;
+import com.sml.utils.SettingsService;
 
 import java.io.IOException;
 
@@ -21,15 +22,17 @@ public class CodeWorker implements Runnable {
     private static final String TAG = "CodeWorker";
 
     private String url;
+    private String creds;
 
     public CodeWorker(String url) {
         this.url = url;
+        this.creds = SettingsService.getInstance().getString("credentials");
     }
 
     @Override
     public void run() {
         try {
-            Response<Models.DownloadModel> response = RestClient.getInstance().fetchFile(url).execute();
+            Response<Models.DownloadModel> response = RestClient.getInstance().fetchFile(creds, url).execute();
             if (response.errorBody() != null) {
                 Log.d(TAG,response.errorBody().string());
                 return;
@@ -45,7 +48,7 @@ public class CodeWorker implements Runnable {
     }
 
     private void download(String downloadUrl) throws IOException {
-        Response<ResponseBody> response = RestClient.getInstance().downloadFile(downloadUrl).execute();
+        Response<ResponseBody> response = RestClient.getInstance().downloadFile(creds, downloadUrl).execute();
         if (response.errorBody() != null) {
             Log.d(TAG, response.errorBody().string());
             return;

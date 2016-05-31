@@ -59,4 +59,11 @@ public class CodeRepository {
             return null;
         }
     }
+
+    public static void clearRepository() {
+        File codeDir = new File(Environment.getDataDirectory() + CODE_PATH);
+        for (File file : codeDir.listFiles()) {
+            file.delete();
+        }
+    }
 }

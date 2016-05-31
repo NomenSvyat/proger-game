@@ -19,11 +19,14 @@ public interface API {
     Call<Credentials.Token> login(@Header("Authorization") String credentials);
 
     @GET("/search/code")
-    Call<Models.FirstModel> search(@Query("q") String q);
+    Call<Models.FirstModel> search(@Header("Authorization") String credentials,
+                                   @Query("q") String q);
 
     @GET
-    Call<Models.DownloadModel> fetchFile(@Url String url);
+    Call<Models.DownloadModel> fetchFile(@Header("Authorization") String credentials,
+                                         @Url String url);
 
     @GET
-    Call<ResponseBody> downloadFile(@Url String url);
+    Call<ResponseBody> downloadFile(@Header("Authorization") String credentials,
+                                    @Url String url);
 }

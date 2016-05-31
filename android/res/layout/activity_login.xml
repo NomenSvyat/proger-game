@@ -44,9 +44,9 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:id="@+id/imageView"
-        android:layout_above="@+id/login_text"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/bug" />
+        android:src="@drawable/bug"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
