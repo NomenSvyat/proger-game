@@ -2,11 +2,9 @@ package com.sml;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -22,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.sml.actors.BugActor;
 import com.sml.actors.PlayerActor;
+import com.sml.control.ForceApplier;
+import com.sml.control.IForceProvider;
 import com.sml.objects.Level;
 import com.sml.objects.Menu;
 import com.sml.utils.ICodeRepository;
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class ProgerGame extends ApplicationAdapter implements ContactListener {
     public static final int BUG_COUNT = 1;
     private final ICodeRepository codeRepository;
+    private final IForceProvider forceProvider;
     private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
     private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     private Level level;
@@ -43,13 +44,14 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
     private float accumulator;
     private World world;
     private Box2DDebugRenderer debugRenderer;
-    private ShapeRenderer shapeRenderer;
     private ArrayList<Disposable> disposables = new ArrayList<Disposable>(BUG_COUNT);
     private BugActor bugActor[] = new BugActor[BUG_COUNT];
     private Vector2 forceApplied = new Vector2(0, 0);
+    private ForceApplier forceApplier;
 
-    public ProgerGame(ICodeRepository codeRepository) {
+    public ProgerGame(ICodeRepository codeRepository, IForceProvider forceProvider) {
         this.codeRepository = codeRepository;
+        this.forceProvider = forceProvider;
     }
 
     @Override
@@ -84,9 +86,6 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
         createFloor(world);
 
-        shapeRenderer = new ShapeRenderer();
-        disposables.add(shapeRenderer);
-
         for (int i = 0; i < BUG_COUNT; i++) {
             bugActor[i] = new BugActor
                     (world,
@@ -99,6 +98,7 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
         world.setContactListener(this);
 
+        forceApplier = new ForceApplier(playerActor, forceProvider);
     }
 
     @Override
@@ -145,44 +145,7 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
         doPhysicsStep(deltaTime);
         debugRenderer.render(world, camera.combined);
 
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.circle(
-                playerActor.getBody().getWorldCenter().x,
-                playerActor.getBody().getWorldCenter().y,
-                6f
-        );
-
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.circle(
-                playerActor.getPosition().x + playerActor.getCenterX(),
-                playerActor.getPosition().y + playerActor.getCenterY(),
-                6f
-        );
-
-        shapeRenderer.setColor(Color.YELLOW);
-        shapeRenderer.circle(forceApplied.x, forceApplied.y, 6f);
-
-        shapeRenderer.setColor(Color.YELLOW);
-        shapeRenderer.circle(
-                bugActor[0].getPosition().x + bugActor[0].getCenterX(),
-                bugActor[0].getPosition().y + bugActor[0].getCenterY(),
-                6f
-        );
-
-        shapeRenderer.setColor(Color.OLIVE);
-        shapeRenderer.circle(
-                bugActor[0].getBody().getWorldCenter().x,
-                bugActor[0].getBody().getWorldCenter().y,
-                6f
-        );
-
-
-        shapeRenderer.end();
-
+        forceApplier.applyForce();
     }
 
     @Override
@@ -225,15 +188,15 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        Body body = contact.getFixtureA().getBody();
-        if (body.getType() != BodyDef.BodyType.DynamicBody) {
-            body = contact.getFixtureB().getBody();
-        }
-        body.applyLinearImpulse(
-                new Vector2(0, 80),
-                forceApplied.set(body.getWorldCenter().x, body.getWorldCenter().y),
-                true);
-//        body.setAngularVelocity(0.5f);
+//        Body body = contact.getFixtureA().getBody();
+//        if (body.getType() != BodyDef.BodyType.DynamicBody) {
+//            body = contact.getFixtureB().getBody();
+//        }
+//        body.applyLinearImpulse(
+//                new Vector2(0, 80),
+//                forceApplied.set(body.getWorldCenter().x, body.getWorldCenter().y),
+//                true);
+////        body.setAngularVelocity(0.5f);
     }
 
     @Override

@@ -8,9 +8,10 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sml.json.BodiesLoader;
 
-public class PlayerActor extends Actor {
+public class PlayerActor extends Actor implements ForceAppliable {
     public static final String ACTOR_NAME = "player";
     private static final float MAX_ROTATION = 45f;
+    private static final float MAX_VELOCITY = 15f;
 
     public PlayerActor(World world, Vector2 position) {
         super(world, position);
@@ -41,6 +42,9 @@ public class PlayerActor extends Actor {
 
     @Override
     public void computeNext(float delta) {
+        if (body.getLinearVelocity().y > MAX_VELOCITY) {
+            body.getLinearVelocity().set(0f, MAX_VELOCITY);
+        }
         position.set(body.getWorldCenter().x - center.x, body.getWorldCenter().y - center.y);
 
         rotation = body.getAngle() * MathUtils.radiansToDegrees;
@@ -58,5 +62,11 @@ public class PlayerActor extends Actor {
             body.setAngularVelocity(-Math.signum(body.getAngularVelocity()) * 0.00001f);
         }
 
+    }
+
+    @Override
+    public void applyForce(float force) {
+//        body.applyForce(0f, force, center.x, center.y, true);
+        body.applyForceToCenter(0f, force, true);
     }
 }
