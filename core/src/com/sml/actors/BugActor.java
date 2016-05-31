@@ -1,5 +1,7 @@
 package com.sml.actors;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -39,5 +41,24 @@ public class BugActor extends Actor {
     @Override
     public void computeNext(float delta) {
         position.set(body.getWorldCenter().x, body.getWorldCenter().y);
+
+        if (position.x < -texture.getWidth()) {
+            respawn();
+        }
+    }
+
+    @Override
+    public void draw(SpriteBatch spriteBatch, float delta) {
+        if (body.isActive()) {
+            super.draw(spriteBatch, delta);
+        }
+    }
+
+    private void respawn() {
+        body.setActive(false);
+        body.setTransform(GameWorldConsts.SCREEN_WIDTH + MathUtils.random(250f, 350f),
+                MathUtils.random(30f, GameWorldConsts.SCREEN_HEIGHT - 50f), 0);
+
+        body.setActive(true);
     }
 }

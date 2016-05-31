@@ -10,7 +10,7 @@ import com.sml.actors.BugActor;
 import com.sml.objects.GameObject;
 
 public class Bugs implements GameObject, Disposable {
-    public static final int BUG_COUNT = 5;
+    public static final int BUG_COUNT = 7;
     private BugActor bugActors[] = new BugActor[BUG_COUNT];
 
     public Bugs(World world, Camera camera) {
@@ -18,8 +18,8 @@ public class Bugs implements GameObject, Disposable {
             bugActors[i] = new BugActor
                     (world,
                             new Vector2(
-                                    camera.viewportWidth + MathUtils.random(150f, 200f) * i,
-                                    MathUtils.random(50f, camera.viewportHeight - 50f))
+                                    camera.viewportWidth + MathUtils.random(250f, 350f) * i,
+                                    MathUtils.random(30f, camera.viewportHeight - 50f))
                     );
         }
     }
