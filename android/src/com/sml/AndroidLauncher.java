@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.sml.control.VoiceForceProvider;
 import com.sml.repositories.CodeRepository;
+import com.sml.utils.LeaderScreen;
 
 public class AndroidLauncher extends AndroidApplication {
     private VoiceForceProvider voiceForceProvider = new VoiceForceProvider();
@@ -28,6 +29,6 @@ public class AndroidLauncher extends AndroidApplication {
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         config.useAccelerometer = false;
         config.useCompass = false;
-        initialize(new ProgerGame(CodeRepository.getInstance(), voiceForceProvider), config);
+        initialize(new ProgerGame(CodeRepository.getInstance(), voiceForceProvider, LeaderScreen.getInstance()), config);
     }
 }

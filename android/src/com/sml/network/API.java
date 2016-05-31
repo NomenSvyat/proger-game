@@ -2,11 +2,15 @@ package com.sml.network;
 
 import com.sml.Credentials;
 import com.sml.models.Models;
+import com.sml.models.ScoreModel;
+
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -29,4 +33,10 @@ public interface API {
     @GET
     Call<ResponseBody> downloadFile(@Header("Authorization") String credentials,
                                     @Url String url);
+
+    @GET
+    Call<ArrayList<ScoreModel>> getAllScores(@Url String url);
+
+    @POST
+    Call<ScoreModel> sendScore(@Url String url);
 }

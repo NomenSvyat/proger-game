@@ -9,5 +9,6 @@
     <string name="bad_credentials_message">
         Please, fill username and password!
     </string>
+    <string name="score_label">YOUR SCORE IS:</string>
 
 </resources>

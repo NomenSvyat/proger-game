@@ -22,6 +22,7 @@ import com.sml.objects.Level;
 import com.sml.objects.Menu;
 import com.sml.objects.collections.Bugs;
 import com.sml.utils.ICodeRepository;
+import com.sml.utils.ILeaderScreen;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,7 @@ public class ProgerGame extends ApplicationAdapter {
     private PlayerLifeManager playerLifeManager;
     private Bugs bugs;
 
-    public ProgerGame(ICodeRepository codeRepository, IForceProvider forceProvider) {
+    public ProgerGame(ICodeRepository codeRepository, IForceProvider forceProvider, ILeaderScreen leaderScreen) {
         this.codeRepository = codeRepository;
         this.forceProvider = forceProvider;
     }

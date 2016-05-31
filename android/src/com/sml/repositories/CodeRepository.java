@@ -32,6 +32,7 @@ public class CodeRepository implements ICodeRepository {
     public List<File> getFiles() {
         File codeDir = new File(Environment.getDataDirectory().getAbsolutePath(), CODE_PATH);
         if (!codeDir.exists()) return null;
+        if (codeDir.listFiles() == null) return null;
 
         return Arrays.asList(codeDir.listFiles());
     }

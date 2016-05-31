@@ -2,7 +2,10 @@ package com.sml;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,6 +87,10 @@ public class LoginActivity extends Activity {
         String username = SettingsService.getInstance().getString("username");
         String q = "size>64+user:" + username;
 
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMessage("Loading...");
+        loading.show();
+
         RestClient.getInstance()
                 .search(SettingsService.getInstance().getString("credentials"), q)
                 .enqueue(new Callback<Models.FirstModel>() {
@@ -95,16 +102,37 @@ public class LoginActivity extends Activity {
                         try { urls.add(response.body().items.get(i).url); }
                         catch (IndexOutOfBoundsException e) { break; }
                     }
-                    CodeFetcher fetcher = new CodeFetcher(urls);
-                    fetcher.fetch(LoginActivity.this);
+                    final CodeFetcher fetcher = new CodeFetcher(urls);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fetcher.fetch(LoginActivity.this, loading);
+                        }
+                    }).start();
+                } else {
+                    noCodeDialog();
                 }
             }
 
             @Override
             public void onFailure(Call<Models.FirstModel> call, Throwable t) {
-                AlertService.showMessage(LoginActivity.this, "Check internet connection");
+                loading.dismiss();
+                noCodeDialog();
             }
         });
+    }
+
+    private void noCodeDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("Error while downloading your files from github.\nUsing sample code background.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(LoginActivity.this, AndroidLauncher.class));
+                    }
+                })
+                .create().show();
     }
 
     private boolean validate() {
