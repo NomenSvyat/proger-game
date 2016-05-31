@@ -55,7 +55,6 @@ public class Level extends GameObject {
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
         if (!pause) {
-
             spriteBatch.draw(backgroundTexture, 0, 0, screenWidth, screenHeight);
             spriteBatch.end();
 

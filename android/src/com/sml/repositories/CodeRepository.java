@@ -71,8 +71,10 @@ public class CodeRepository implements ICodeRepository {
 
     public void clearRepository() {
         File codeDir = new File(Environment.getDataDirectory() + CODE_PATH);
-        for (File file : codeDir.listFiles()) {
-            file.delete();
+        if (codeDir.exists() && codeDir.listFiles().length > 0) {
+            for (File file : codeDir.listFiles()) {
+                file.delete();
+            }
         }
     }
 }
