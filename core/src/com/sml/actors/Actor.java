@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
+import com.sml.objects.GameObject;
 
-public abstract class Actor implements Disposable {
+public abstract class Actor implements Disposable, GameObject {
     protected final Vector2 position;
     protected Vector2 center = new Vector2();
     protected boolean isDisposed;
@@ -37,6 +38,16 @@ public abstract class Actor implements Disposable {
     public abstract String getActorName();
 
     public abstract void computeNext(float delta);
+
+    @Override
+    public void draw(SpriteBatch spriteBatch, float delta) {
+        draw(spriteBatch);
+    }
+
+    @Override
+    public void update(float delta) {
+        computeNext(delta);
+    }
 
     public void draw(SpriteBatch batch) {
         batch.draw(

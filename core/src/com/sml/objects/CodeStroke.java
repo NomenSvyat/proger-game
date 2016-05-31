@@ -1,6 +1,5 @@
 package com.sml.objects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -10,7 +9,7 @@ import com.sml.GameWorldConsts;
  * Created by alexandrgrizhinku on 30/05/16.
  */
 
-public class CodeStroke extends GameObject {
+public class CodeStroke implements GameObject {
 
     private BitmapFont codeFont;
     private BitmapFont numberFont;
@@ -51,14 +50,13 @@ public class CodeStroke extends GameObject {
         position.add(delta * GameWorldConsts.TEXT_VELOCITY, 0);
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
 
     public void setChecked(boolean checked) {
         numberFont.setColor(255.0f, 255.0f, 255.0f, 1.0f);
         this.checked = checked;
-    }
-
-    public boolean isChecked() {
-        return checked;
     }
 
     public float getPosX() {

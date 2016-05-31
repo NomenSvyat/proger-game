@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by alexandrgrizhinku on 30/05/16.
  */
 
-abstract class GameObject {
+public interface GameObject {
 
 
-    public abstract void draw(SpriteBatch spriteBatch, float delta);
+    void draw(SpriteBatch spriteBatch, float delta);
 
-    public abstract void update(float delta);
+    void update(float delta);
 
 
 }

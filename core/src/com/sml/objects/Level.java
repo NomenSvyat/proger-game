@@ -12,7 +12,7 @@ import com.sml.GameWorldConsts;
 import java.io.File;
 import java.util.LinkedList;
 
-public class Level extends GameObject {
+public class Level implements GameObject {
     private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
     private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     /**
