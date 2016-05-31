@@ -29,5 +29,7 @@ public class CodeFetcher {
         service.shutdown();
         try { service.awaitTermination(60, TimeUnit.SECONDS); }
         catch (InterruptedException e) { e.printStackTrace(); }
+
+        System.out.println(urls.size() + " files saved.");
     }
 }

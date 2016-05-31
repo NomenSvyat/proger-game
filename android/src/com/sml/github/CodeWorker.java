@@ -52,8 +52,7 @@ public class CodeWorker implements Runnable {
         }
 
         if (response.body() != null) {
-            CodeRepository.getInstance().saveCodeFile(response.body().string().replaceAll("\t", "    "));
+            CodeRepository.saveCodeFile(response.body().string().replaceAll("\t", "    "));
         }
-
     }
 }
