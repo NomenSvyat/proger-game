@@ -33,10 +33,11 @@ public class PlayerActor extends Actor implements ForceAppliable {
         massData.mass = 1f;
         body.setMassData(massData);
 
+        body.setUserData(this);
     }
 
     @Override
-    protected String getActorName() {
+    public String getActorName() {
         return ACTOR_NAME;
     }
 

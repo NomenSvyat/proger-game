@@ -11,10 +11,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
@@ -22,13 +18,15 @@ import com.sml.actors.BugActor;
 import com.sml.actors.PlayerActor;
 import com.sml.control.ForceApplier;
 import com.sml.control.IForceProvider;
+import com.sml.control.PlayerCollisionListener;
+import com.sml.control.PlayerLifeManager;
 import com.sml.objects.Level;
 import com.sml.objects.Menu;
 import com.sml.utils.ICodeRepository;
 
 import java.util.ArrayList;
 
-public class ProgerGame extends ApplicationAdapter implements ContactListener {
+public class ProgerGame extends ApplicationAdapter {
     public static final int BUG_COUNT = 1;
     private final ICodeRepository codeRepository;
     private final IForceProvider forceProvider;
@@ -48,6 +46,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
     private BugActor bugActor[] = new BugActor[BUG_COUNT];
     private Vector2 forceApplied = new Vector2(0, 0);
     private ForceApplier forceApplier;
+    private PlayerCollisionListener playerCollisionListener;
+    private PlayerLifeManager playerLifeManager;
 
     public ProgerGame(ICodeRepository codeRepository, IForceProvider forceProvider) {
         this.codeRepository = codeRepository;
@@ -56,7 +56,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
     @Override
     public void create() {
-
+        playerLifeManager = new PlayerLifeManager();
+        playerCollisionListener = new PlayerCollisionListener(playerLifeManager);
         menu = new Menu();
         menu.init();
 
@@ -96,7 +97,7 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
             disposables.add(bugActor[i]);
         }
 
-        world.setContactListener(this);
+        world.setContactListener(playerCollisionListener);
 
         forceApplier = new ForceApplier(playerActor, forceProvider);
     }
@@ -185,33 +186,4 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
         floorBox.dispose();
     }
-
-    @Override
-    public void beginContact(Contact contact) {
-//        Body body = contact.getFixtureA().getBody();
-//        if (body.getType() != BodyDef.BodyType.DynamicBody) {
-//            body = contact.getFixtureB().getBody();
-//        }
-//        body.applyLinearImpulse(
-//                new Vector2(0, 80),
-//                forceApplied.set(body.getWorldCenter().x, body.getWorldCenter().y),
-//                true);
-////        body.setAngularVelocity(0.5f);
-    }
-
-    @Override
-    public void endContact(Contact contact) {
-
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
-    }
-
 }
