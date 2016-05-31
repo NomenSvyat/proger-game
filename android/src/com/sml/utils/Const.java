@@ -8,5 +8,5 @@ package com.sml.utils;
 public class Const {
 
     public static final String GET_SCORE_URL = "https://progergame.herokuapp.com/scores";
-    public static final String SEND_SCORE_UR = "https://progergame.herokuapp.com/";
+    public static final String SEND_SCORE_URL = "https://progergame.herokuapp.com/submit";
 }

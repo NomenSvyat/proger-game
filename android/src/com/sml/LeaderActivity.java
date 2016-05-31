@@ -13,6 +13,7 @@ import com.sml.adapters.ScoreAdapter;
 import com.sml.models.ScoreModel;
 import com.sml.network.RestClient;
 import com.sml.utils.Const;
+import com.sml.utils.SettingsService;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,20 @@ public class LeaderActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
+
+        String username = SettingsService.getInstance().getString(this, "username");
+        String url = Const.SEND_SCORE_URL + String.format("?username=%s&score=%s", username, String.valueOf(score));
+        RestClient.getInstance().sendScore(url).enqueue(new Callback<ScoreModel>() {
+            @Override
+            public void onResponse(Call<ScoreModel> call, Response<ScoreModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ScoreModel> call, Throwable t) {
+
+            }
+        });
 
     }
 
