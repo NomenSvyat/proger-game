@@ -25,13 +25,14 @@ public class Level extends GameObject {
     private Matrix4 matrix4Rotate;
     private float screenWidth, screenHeight;
     private boolean pause = false;
-    //Need to implement to class
     private LinkedList<CodeStroke> strokes = new LinkedList<CodeStroke>();
     private String codeSample;
     private int scores = -1;
     private String scoresStr = "Scores : 0";
     private int strokeCount;
     private float spawnTimer;
+    private float startTimer = 3.0f;
+    private float startX, startY;
 
     public void init() {
 
@@ -41,8 +42,9 @@ public class Level extends GameObject {
 
         /** Player Settings */
         player = new Player();
-        player.setPosition(screenWidth / 2 - player.getSprite().getWidth() / 2,
-                screenHeight / 2 - player.getSprite().getHeight() / 2); 
+        startX = screenWidth / 2 - player.getSprite().getWidth() / 2;
+        startY = screenHeight / 2 - player.getSprite().getHeight() / 2;
+        player.setPosition(startX, startY);
 
         /** Loading font(s) */
         font = new BitmapFont(Gdx.files.internal("numberFont.fnt"));
@@ -90,22 +92,24 @@ public class Level extends GameObject {
     @Override
     public void update(float delta) {
         spawnTimer += delta;
-        if (spawnTimer >= 0.5f) {
-            strokes.add(new CodeStroke(font, codeSample, String.valueOf(strokeCount)));
-            strokeCount++;
-            spawnTimer -= 0.5f;
-            CodeStroke codeStroke = strokes.getFirst();
-            if (codeStroke.getPosX() >= screenWidth) {
-                strokes.pop();
+        if(spawnTimer >= startTimer) {
+            if (spawnTimer >= 0.5f) {
+                strokes.add(new CodeStroke(font, codeSample, String.valueOf(strokeCount)));
+                strokeCount++;
+                spawnTimer -= 0.5f;
+                CodeStroke codeStroke = strokes.getFirst();
+                if (codeStroke.getPosX() >= screenWidth) {
+                    strokes.pop();
+                }
+
             }
 
-        }
-
-        if (Gdx.input.isTouched()) {
-            if (Gdx.input.getX() > screenWidth / 2) {
-                player.moveUp(Gdx.graphics.getDeltaTime());
-            } else {
-                player.moveDown(Gdx.graphics.getDeltaTime());
+            if (Gdx.input.isTouched()) {
+                if (Gdx.input.getX() > screenWidth / 2) {
+                    player.moveUp(Gdx.graphics.getDeltaTime());
+                } else {
+                    player.moveDown(Gdx.graphics.getDeltaTime());
+                }
             }
         }
     }

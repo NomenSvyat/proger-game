@@ -6,5 +6,4 @@ package com.sml.listeners;
 
 public interface LevelListener {
     void onLevelFailed();
-    void onLevelPaused(int totalScore);
 }

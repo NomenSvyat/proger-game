@@ -49,7 +49,13 @@ public class Player extends GameObject {
         sprite.setPosition(posX, posY);
     }
 
+    public float getPosX() {
+        return posX;
+    }
 
+    public float getPosY() {
+        return posY;
+    }
 
     public Sprite getSprite() {
         return sprite;
