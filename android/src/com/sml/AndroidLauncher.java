@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.sml.repositories.CodeRepository;
+import com.sml.utils.LeaderScreen;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -13,6 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-		initialize(new ProgerGame(CodeRepository.getInstance()), config);
+		initialize(new ProgerGame(CodeRepository.getInstance(), LeaderScreen.getInstance()), config);
 	}
 }

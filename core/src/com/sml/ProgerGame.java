@@ -25,6 +25,7 @@ import com.sml.actors.PlayerActor;
 import com.sml.objects.Level;
 import com.sml.objects.Menu;
 import com.sml.utils.ICodeRepository;
+import com.sml.utils.ILeaderScreen;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
     private BugActor bugActor[] = new BugActor[BUG_COUNT];
     private Vector2 forceApplied = new Vector2(0, 0);
 
-    public ProgerGame(ICodeRepository codeRepository) {
+    public ProgerGame(ICodeRepository codeRepository, ILeaderScreen leaderScreen) {
         this.codeRepository = codeRepository;
     }
 

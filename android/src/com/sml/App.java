@@ -2,6 +2,7 @@ package com.sml;
 
 import android.app.Application;
 
+import com.sml.utils.LeaderScreen;
 import com.sml.utils.SettingsService;
 
 /**
@@ -16,5 +17,6 @@ public class App extends Application {
         super.onCreate();
 
         SettingsService.getInstance().context = this;
+        LeaderScreen.getInstance().context = this;
     }
 }
