@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.File;
 import java.util.LinkedList;
 
 /**
@@ -27,6 +28,7 @@ public class Level extends GameObject {
     private boolean pause = false;
     private LinkedList<CodeStroke> strokes = new LinkedList<CodeStroke>();
     private String codeSample;
+    private File codeFile;
     private int scores = -1;
     private String scoresStr = "Scores : 0";
     private int strokeCount;
@@ -57,7 +59,6 @@ public class Level extends GameObject {
 
         /** Background texture loading */
         backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-
     }
 
     @Override

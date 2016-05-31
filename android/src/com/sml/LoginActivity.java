@@ -96,7 +96,7 @@ public class LoginActivity extends Activity {
                         catch (IndexOutOfBoundsException e) { break; }
                     }
                     CodeFetcher fetcher = new CodeFetcher(urls);
-                    fetcher.fetch();
+                    fetcher.fetch(LoginActivity.this);
                 }
             }
 

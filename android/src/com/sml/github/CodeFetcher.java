@@ -1,5 +1,9 @@
 package com.sml.github;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.sml.AndroidLauncher;
 import com.sml.repositories.CodeRepository;
 
 import java.util.ArrayList;
@@ -21,8 +25,8 @@ public class CodeFetcher {
         this.urls = urls;
     }
 
-    public void fetch() {
-        CodeRepository.clearRepository();
+    public void fetch(Context context) {
+        CodeRepository.getInstance().clearRepository();
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
         for (String url : urls) {
             Runnable worker = new CodeWorker(url);
@@ -34,5 +38,6 @@ public class CodeFetcher {
         catch (InterruptedException e) { e.printStackTrace(); }
 
         System.out.println(urls.size() + " files saved.");
+        context.startActivity(new Intent(context, AndroidLauncher.class));
     }
 }

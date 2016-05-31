@@ -2,23 +2,12 @@ package com.sml;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
-import com.sml.objects.CodeStroke;
 import com.sml.objects.Level;
 import com.sml.objects.Menu;
-import com.sml.objects.Player;
-
-import java.util.LinkedList;
+import com.sml.utils.ICodeRepository;
 
 public class ProgerGame extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -27,6 +16,11 @@ public class ProgerGame extends ApplicationAdapter {
     private Level level;
     private Menu menu;
     private boolean pause = false;
+    private ICodeRepository codeRepository;
+
+    public ProgerGame(ICodeRepository codeRepository) {
+        this.codeRepository = codeRepository;
+    }
 
     @Override
     public void create() {

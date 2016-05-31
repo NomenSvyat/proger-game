@@ -2,6 +2,8 @@ package com.sml.repositories;
 
 import android.os.Environment;
 
+import com.sml.utils.ICodeRepository;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,20 +16,27 @@ import java.util.List;
  *
  * @author Timofey Plotnikov <timofey.plot@gmail.com>
  */
-public class CodeRepository {
+public class CodeRepository implements ICodeRepository {
     private static final String CODE_PATH = "/data/com.sml/code";
-    private static int next = 0;
+    private int next = 0;
+
+    private static CodeRepository instance;
+    public static CodeRepository getInstance() {
+        if (instance == null)
+            instance = new CodeRepository();
+        return instance;
+    }
 
     private CodeRepository() {}
 
-    public static List<File> getFiles() {
+    public List<File> getFiles() {
         File codeDir = new File(Environment.getDataDirectory().getAbsolutePath(), CODE_PATH);
         if (!codeDir.exists()) return null;
 
         return Arrays.asList(codeDir.listFiles());
     }
 
-    public static void saveCodeFile(String fileContent) {
+    public void saveCodeFile(String fileContent) {
         String fileName = String.valueOf(System.currentTimeMillis());
         File outputFile = new File(Environment.getDataDirectory().getAbsolutePath(), CODE_PATH + "/" + fileName);
         if (!outputFile.exists())
@@ -43,7 +52,7 @@ public class CodeRepository {
         }
     }
 
-    public static File nextFile() {
+    public File getNextFile() {
         List<File> files = getFiles();
         if (files != null && files.size() > 0) {
             try {
@@ -60,7 +69,7 @@ public class CodeRepository {
         }
     }
 
-    public static void clearRepository() {
+    public void clearRepository() {
         File codeDir = new File(Environment.getDataDirectory() + CODE_PATH);
         for (File file : codeDir.listFiles()) {
             file.delete();
