@@ -88,8 +88,9 @@ public class LoginActivity extends Activity {
             public void onResponse(Call<Models.FirstModel> call, Response<Models.FirstModel> response) {
                 if (response.errorBody() == null) {
                     ArrayList<String> urls = new ArrayList<String>();
-                    for (Models.Model model : response.body().items) {
-                        urls.add(model.url);
+                    for (int i = 0; i < 5; i++) {
+                        try { urls.add(response.body().items.get(i).url); }
+                        catch (IndexOutOfBoundsException e) { break; }
                     }
                     CodeFetcher fetcher = new CodeFetcher(urls);
                     fetcher.fetch();
@@ -98,7 +99,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onFailure(Call<Models.FirstModel> call, Throwable t) {
-
+                AlertService.showMessage(LoginActivity.this, "Check internet connection");
             }
         });
     }
