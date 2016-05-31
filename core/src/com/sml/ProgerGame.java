@@ -71,7 +71,7 @@ public class ProgerGame extends ApplicationAdapter {
 
         Box2D.init();
 
-        world = new World(new Vector2(0f, -10f), true);
+        world = new World(new Vector2(0f, GameWorldConsts.GRAVITY), true);
         disposables.add(world);
 
         debugRenderer = new Box2DDebugRenderer();
@@ -113,8 +113,8 @@ public class ProgerGame extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        playerActor.draw(batch, deltaTime);
         bugs.draw(batch, deltaTime);
+        playerActor.draw(batch, deltaTime);
 
         batch.end();
 
@@ -145,6 +145,7 @@ public class ProgerGame extends ApplicationAdapter {
     }
 
     private void createVerticalMargins(World world) {
+        if (true) return;
         BodyDef floorDef = new BodyDef();
         floorDef.type = BodyDef.BodyType.StaticBody;
         floorDef.position.set(0, 10);
