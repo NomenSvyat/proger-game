@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
         String q = "size>64+user:" + username;
 
         final ProgressDialog loading = new ProgressDialog(this);
-        loading.setMessage("Loading");
+        loading.setMessage("Loading...");
         loading.show();
 
         RestClient.getInstance()
@@ -112,7 +112,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(Call<Models.FirstModel> call, Throwable t) {
                 loading.dismiss();
-                AlertService.showMessage(LoginActivity.this, "Check internet connection");
+                noCodeDialog();
             }
         });
     }
