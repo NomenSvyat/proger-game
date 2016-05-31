@@ -29,5 +29,6 @@ public class PlayerLifeManager implements LifeManager {
     public interface OnLifeChangeListener {
         void onLifeMinus();
         void onLifeCountEnded();
+
     }
 }

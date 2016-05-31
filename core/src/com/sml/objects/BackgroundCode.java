@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sml.GameWorldConsts;
 import com.sml.listeners.IBackgroundCode;
+import com.sml.utils.ICodeRepository;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.LinkedList;
 
 /**
@@ -21,10 +25,45 @@ public class BackgroundCode implements GameObject{
     private float spawnTimer;
     private float startTimer = 3;
 
-    public BackgroundCode(BitmapFont font, float positionToCountX, IBackgroundCode backgroundCode){
+    private ICodeRepository codeRepository;
+    private File codeFile;
+    private BufferedReader fileReader;
+    private String codeString = "System.out.print(Hello)";
+
+
+    public BackgroundCode(BitmapFont font, float positionToCountX, IBackgroundCode backgroundCode, ICodeRepository codeRepository){
         this.bitmapFont = font;
         this.positionToCountX = positionToCountX;
         this.backgroundCode = backgroundCode;
+        this.codeRepository = codeRepository;
+
+        codeFile = codeRepository.getNextFile();
+        loadCodeBackground();
+    }
+
+    private void loadCodeBackground() {
+        if (codeFile == null) {
+            fileReader = new BufferedReader(Gdx.files.internal("codeSample.txt").reader());
+        } else {
+            try {
+                fileReader = new BufferedReader(new FileReader(codeFile));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadNextString() {
+        try {
+            codeString = fileReader.readLine();
+            if (codeString == null) {
+                codeString = "<HELLO, STRANGER!>";
+                codeFile = codeRepository.getNextFile();
+                loadCodeBackground();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,10 +87,11 @@ public class BackgroundCode implements GameObject{
         spawnTimer += delta;
         if (spawnTimer >= startTimer) {
             if (spawnTimer >= GameWorldConsts.SPAWN_VELOCITY) {
-                strokes.add(new CodeStroke(bitmapFont, "CODE SAMPLE", String.valueOf(strokeCount)));
+                loadNextString();
+                strokes.add(new CodeStroke(bitmapFont, codeString, String.valueOf(strokeCount)));
                 strokeCount++;
                 CodeStroke codeStroke = strokes.getFirst();
-                if (codeStroke.getPosX() >= Gdx.graphics.getWidth()) {
+                if (codeStroke.getPosX() >= GameWorldConsts.SCREEN_WIDTH) {
                     strokes.pop();
                 }
                 spawnTimer -= GameWorldConsts.SPAWN_VELOCITY;
