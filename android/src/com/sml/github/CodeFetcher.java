@@ -1,5 +1,6 @@
 package com.sml.github;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -25,7 +26,7 @@ public class CodeFetcher {
         this.urls = urls;
     }
 
-    public void fetch(Context context) {
+    public void fetch(Context context, ProgressDialog pd) {
         CodeRepository.getInstance().clearRepository();
         ExecutorService service = Executors.newFixedThreadPool(THREAD_COUNT);
         for (String url : urls) {
@@ -38,6 +39,7 @@ public class CodeFetcher {
         catch (InterruptedException e) { e.printStackTrace(); }
 
         System.out.println(urls.size() + " files saved.");
+        pd.dismiss();
         context.startActivity(new Intent(context, AndroidLauncher.class));
     }
 }
