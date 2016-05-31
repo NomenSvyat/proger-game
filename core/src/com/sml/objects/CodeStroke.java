@@ -30,7 +30,6 @@ public class CodeStroke extends GameObject {
 
     @Override
     public void draw(SpriteBatch batch, float delta) {
-        update(delta);
         if (checked) {
             numberFont.setColor(255.0f, 255.0f, 255.0f, fadeAlpha);
             numberFont.draw(batch, number, position.y + 10.0f, position.x);
@@ -48,7 +47,7 @@ public class CodeStroke extends GameObject {
 
     @Override
     public void update(float delta) {
-        position.add(delta * GameWorldConsts.TEXT_VELOCITY, 0);
+        position.add(delta, 0);
     }
 
 
