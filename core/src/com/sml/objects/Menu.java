@@ -12,12 +12,12 @@ public class Menu extends GameObject {
 
     private Texture backgroundTexture;
 
-    public void init(){
+    public void init() {
         backgroundTexture = new Texture(Gdx.files.internal("background2.png"));
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
+    public void draw(SpriteBatch spriteBatch, float delta) {
         spriteBatch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

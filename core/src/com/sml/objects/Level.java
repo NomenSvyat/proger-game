@@ -7,23 +7,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.sml.GameWorldConsts;
 
 import java.util.LinkedList;
 
-/**
- * Created by alexandrgrizhinku on 31/05/16.
- */
-
 public class Level extends GameObject {
+    private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
+    private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     /**
      * User git file(s) need to be loaded in init() function
      */
 
-    private Player player;
     private Texture backgroundTexture;
     private BitmapFont font;
     private Matrix4 matrix4Rotate;
-    private float screenWidth, screenHeight;
     private boolean pause = false;
     private LinkedList<CodeStroke> strokes = new LinkedList<CodeStroke>();
     private String codeSample;
@@ -32,22 +29,16 @@ public class Level extends GameObject {
     private int strokeCount;
     private float spawnTimer;
     private float startTimer = 3.0f;
-    private float startX, startY;
+
+    private float lineSizeWithSpace;
 
     public void init() {
 
         /** Getting Screen info */
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-
-        /** Player Settings */
-        player = new Player();
-        startX = screenWidth / 2 - player.getSprite().getWidth() / 2;
-        startY = screenHeight / 2 - player.getSprite().getHeight() / 2;
-        player.setPosition(startX, startY);
 
         /** Loading font(s) */
         font = new BitmapFont(Gdx.files.internal("numberFont.fnt"));
+        lineSizeWithSpace = font.getCapHeight() * 1.5f;
         codeSample = "batch = new SpriteBatch();";
 
         /** Setting up matrix to rotate text vertically */
@@ -61,7 +52,7 @@ public class Level extends GameObject {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
+    public void draw(SpriteBatch spriteBatch, float delta) {
         if (!pause) {
 
             spriteBatch.draw(backgroundTexture, 0, 0, screenWidth, screenHeight);
@@ -76,14 +67,13 @@ public class Level extends GameObject {
                         scores++;
                         scoresStr = String.valueOf("Scores : " + scores);
                     }
-                    codeStroke.draw(spriteBatch);
+                    codeStroke.draw(spriteBatch, delta);
                 }
             }
             spriteBatch.end();
 
             spriteBatch.setTransformMatrix(new Matrix4());
             spriteBatch.begin();
-            player.draw(spriteBatch);
             font.setColor(Color.BLACK);
             font.draw(spriteBatch, scoresStr, 50.0f, screenHeight - 25.0f);
         }
@@ -92,11 +82,11 @@ public class Level extends GameObject {
     @Override
     public void update(float delta) {
         spawnTimer += delta;
-        if(spawnTimer >= startTimer) {
-            if (spawnTimer >= 0.5f) {
+        if (spawnTimer >= startTimer) {
+            if (spawnTimer >= GameWorldConsts.SPAWN_VELOCITY) {
                 strokes.add(new CodeStroke(font, codeSample, String.valueOf(strokeCount)));
                 strokeCount++;
-                spawnTimer -= 0.5f;
+                spawnTimer -= GameWorldConsts.SPAWN_VELOCITY;
                 CodeStroke codeStroke = strokes.getFirst();
                 if (codeStroke.getPosX() >= screenWidth) {
                     strokes.pop();
@@ -104,14 +94,6 @@ public class Level extends GameObject {
 
             }
 
-        }
-
-        if (Gdx.input.isTouched()) {
-            if (Gdx.input.getX() > screenWidth / 2) {
-                player.moveUp(Gdx.graphics.getDeltaTime());
-            } else {
-                player.moveDown(Gdx.graphics.getDeltaTime());
-            }
         }
     }
 

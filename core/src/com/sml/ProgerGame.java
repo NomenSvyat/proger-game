@@ -31,7 +31,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
 
     public static final int BUG_COUNT = 1;
-    private float screenWidth, screenHeight;
+    private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
+    private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     private Level level;
     private Menu menu;
     private boolean pause = false;
@@ -55,9 +56,6 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
         level = new Level();
         level.init();
-
-        screenWidth = 960;
-        screenHeight = 600;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);
@@ -101,6 +99,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
     @Override
     public void render() {
+        deltaTime = Gdx.graphics.getDeltaTime();
+
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -113,8 +113,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 //            menu.draw(batch);
 //        }
 
-        level.draw(batch);
-        level.update(Gdx.graphics.getDeltaTime());
+        level.draw(batch, deltaTime);
+        level.update(deltaTime);
 
         batch.end();
 
@@ -124,7 +124,6 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
         camera.update();
 
-        deltaTime = Gdx.graphics.getDeltaTime();
         playerActor.computeNext(deltaTime);
         for (int i = 0; i < BUG_COUNT; i++) {
             bugActor[i].computeNext(deltaTime);
@@ -227,8 +226,8 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
             body = contact.getFixtureB().getBody();
         }
         body.applyLinearImpulse(
-                new Vector2(0, 60),
-                forceApplied.set(body.getWorldCenter().x + 40f, body.getWorldCenter().y),
+                new Vector2(0, 80),
+                forceApplied.set(body.getWorldCenter().x, body.getWorldCenter().y),
                 true);
 //        body.setAngularVelocity(0.5f);
     }
