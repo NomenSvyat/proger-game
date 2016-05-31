@@ -22,11 +22,19 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import com.sml.actors.BugActor;
 import com.sml.actors.PlayerActor;
+import com.sml.objects.Level;
+import com.sml.objects.Menu;
 
 import java.util.ArrayList;
 
 public class ProgerGame extends ApplicationAdapter implements ContactListener {
+
+
     public static final int BUG_COUNT = 1;
+    private float screenWidth, screenHeight;
+    private Level level;
+    private Menu menu;
+    private boolean pause = false;
     private SpriteBatch batch;
     private PlayerActor playerActor;
     private OrthographicCamera camera;
@@ -41,6 +49,22 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
     @Override
     public void create() {
+
+        menu = new Menu();
+        menu.init();
+
+        level = new Level();
+        level.init();
+
+        screenWidth = 960;
+        screenHeight = 600;
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, screenWidth, screenHeight);
+        batch = new SpriteBatch();
+        batch.setProjectionMatrix(camera.combined);
+
+
         batch = new SpriteBatch();
         disposables.add(batch);
 
@@ -55,8 +79,6 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
         playerActor = new PlayerActor(world, new Vector2(10, 240));
         disposables.add(playerActor);
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 960, 600);
 
         createFloor(world);
 
@@ -74,31 +96,31 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
         }
 
         world.setContactListener(this);
-    }
 
-    private void createFloor(World world) {
-        BodyDef floorDef = new BodyDef();
-        floorDef.type = BodyDef.BodyType.StaticBody;
-        floorDef.position.set(0, 10);
-
-        Body floor = world.createBody(floorDef);
-
-        floorDef.position.set(0, camera.viewportHeight - 10);
-        Body ceiling = world.createBody(floorDef);
-
-        PolygonShape floorBox = new PolygonShape();
-        floorBox.setAsBox(camera.viewportWidth, 10f);
-
-        floor.createFixture(floorBox, 0f);
-        ceiling.createFixture(floorBox, 0f);
-
-        floorBox.dispose();
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(5, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+//        if(!pause) {
+//            level.update(Gdx.graphics.getDeltaTime());
+//            level.draw(batch);
+//        } else {
+//            menu.update(Gdx.graphics.getDeltaTime());
+//            menu.draw(batch);
+//        }
+
+        level.draw(batch);
+        level.update(Gdx.graphics.getDeltaTime());
+
+        batch.end();
+
+//        if (Gdx.input.isTouched()) {
+//            pause = true;
+//        }
 
         camera.update();
 
@@ -157,6 +179,15 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
 
 
         shapeRenderer.end();
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Disposable disposable : disposables) {
+            disposable.dispose();
+        }
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -170,12 +201,23 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
         }
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        for (Disposable disposable : disposables) {
-            disposable.dispose();
-        }
+    private void createFloor(World world) {
+        BodyDef floorDef = new BodyDef();
+        floorDef.type = BodyDef.BodyType.StaticBody;
+        floorDef.position.set(0, 10);
+
+        Body floor = world.createBody(floorDef);
+
+        floorDef.position.set(0, camera.viewportHeight - 10);
+        Body ceiling = world.createBody(floorDef);
+
+        PolygonShape floorBox = new PolygonShape();
+        floorBox.setAsBox(camera.viewportWidth, 10f);
+
+        floor.createFixture(floorBox, 0f);
+        ceiling.createFixture(floorBox, 0f);
+
+        floorBox.dispose();
     }
 
     @Override
@@ -205,4 +247,5 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
+
 }
