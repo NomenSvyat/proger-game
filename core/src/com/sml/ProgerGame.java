@@ -24,13 +24,13 @@ import com.sml.actors.BugActor;
 import com.sml.actors.PlayerActor;
 import com.sml.objects.Level;
 import com.sml.objects.Menu;
+import com.sml.utils.ICodeRepository;
 
 import java.util.ArrayList;
 
 public class ProgerGame extends ApplicationAdapter implements ContactListener {
-
-
     public static final int BUG_COUNT = 1;
+    private final ICodeRepository codeRepository;
     private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
     private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     private Level level;
@@ -47,6 +47,10 @@ public class ProgerGame extends ApplicationAdapter implements ContactListener {
     private ArrayList<Disposable> disposables = new ArrayList<Disposable>(BUG_COUNT);
     private BugActor bugActor[] = new BugActor[BUG_COUNT];
     private Vector2 forceApplied = new Vector2(0, 0);
+
+    public ProgerGame(ICodeRepository codeRepository) {
+        this.codeRepository = codeRepository;
+    }
 
     @Override
     public void create() {
