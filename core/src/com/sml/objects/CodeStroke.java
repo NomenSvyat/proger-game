@@ -32,7 +32,7 @@ public class CodeStroke extends GameObject {
             numberFont.setColor(255.0f, 255.0f, 255.0f, fadeAlpha);
             numberFont.draw(batch, number, PosY + 10.0f, PosX);
             if (fadeAlpha > 0.5f) {
-                fadeAlpha -= 0.01f;
+                fadeAlpha -= 0.005f;
             }
         } else {
             numberFont.setColor(255.0f, 255.0f, 255.0f, 0.5f);

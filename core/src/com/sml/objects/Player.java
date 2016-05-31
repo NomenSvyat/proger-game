@@ -14,7 +14,8 @@ public class Player extends GameObject {
     private Sprite sprite;
     private Texture texture;
     private float posX, posY;
-    public Player(){
+
+    Player(){
         this.texture = new Texture(Gdx.files.internal("player.png"));
         this.sprite = new Sprite(texture, 0, 0, texture.getWidth(), texture.getHeight());
         this.sprite.setScale(0.5f);
