@@ -16,13 +16,14 @@ public class RestClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor())
                 .build();
+
         Retrofit.Builder builder = new Retrofit.Builder();
         Retrofit retrofit = builder.baseUrl("https://api.github.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
-        API api = retrofit.create(API.class);
+        instance = retrofit.create(API.class);
     }
 
     public static API getInstance() {

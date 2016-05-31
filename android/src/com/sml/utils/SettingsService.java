@@ -11,6 +11,8 @@ public class SettingsService {
     private static final String PREFS_NAME = "user_settings";
 
     private static SettingsService instance;
+    public Context context;
+
     public static SettingsService getInstance() {
         if (instance == null)
             instance = new SettingsService();
@@ -28,6 +30,13 @@ public class SettingsService {
 
     public String getString(Context ctx, String key) {
         SharedPreferences preferences = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return preferences.getString(key, "");
+    }
+
+    public String getString(String key) {
+        if (context == null)
+            return "";
+        SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return preferences.getString(key, "");
     }
 }
