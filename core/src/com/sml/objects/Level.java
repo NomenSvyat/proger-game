@@ -104,12 +104,13 @@ public class Level extends GameObject {
 
             }
 
-            if (Gdx.input.isTouched()) {
-                if (Gdx.input.getX() > screenWidth / 2) {
-                    player.moveUp(Gdx.graphics.getDeltaTime());
-                } else {
-                    player.moveDown(Gdx.graphics.getDeltaTime());
-                }
+        }
+
+        if (Gdx.input.isTouched()) {
+            if (Gdx.input.getX() > screenWidth / 2) {
+                player.moveUp(Gdx.graphics.getDeltaTime());
+            } else {
+                player.moveDown(Gdx.graphics.getDeltaTime());
             }
         }
     }
