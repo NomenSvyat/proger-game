@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by alexandrgrizhinku on 31/05/16.
  */
 
-public class Menu extends GameObject {
+public class Menu implements GameObject {
 
     private Texture backgroundTexture;
 

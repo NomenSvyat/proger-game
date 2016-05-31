@@ -12,7 +12,8 @@ import com.sml.listeners.IBackgroundCode;
 
 import java.io.File;
 
-public class Level extends GameObject implements IBackgroundCode{
+public class Level implements GameObject, IBackgroundCode{
+
     private final float screenWidth = GameWorldConsts.SCREEN_WIDTH;
     private final float screenHeight = GameWorldConsts.SCREEN_HEIGHT;
     /**

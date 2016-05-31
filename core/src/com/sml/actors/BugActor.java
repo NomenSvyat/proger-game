@@ -32,7 +32,7 @@ public class BugActor extends Actor {
     }
 
     @Override
-    protected String getActorName() {
+    public String getActorName() {
         return ACTOR_NAME;
     }
 

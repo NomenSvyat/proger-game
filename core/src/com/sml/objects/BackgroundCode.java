@@ -12,7 +12,7 @@ import java.util.LinkedList;
  * Created by alexandrgrizhinku on 31/05/16.
  */
 
-public class BackgroundCode extends GameObject{
+public class BackgroundCode implements GameObject{
     private LinkedList<CodeStroke> strokes = new LinkedList<CodeStroke>();
     private BitmapFont bitmapFont;
     private IBackgroundCode backgroundCode;
