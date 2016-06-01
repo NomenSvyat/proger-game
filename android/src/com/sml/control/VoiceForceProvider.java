@@ -20,9 +20,9 @@ public class VoiceForceProvider implements IForceProvider {
             return 0f;
         }
         maxAmplitude = (maxAmplitude + mediaRecorder.getMaxAmplitude()) / 2;
-        System.out.println(maxAmplitude / 30f - 100f);
+        System.out.println(maxAmplitude / 80f - 100f);
 
-        return maxAmplitude / 30f - 100f;
+        return maxAmplitude / 60f - 100f;
     }
 
     public void start() {

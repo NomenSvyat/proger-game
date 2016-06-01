@@ -35,21 +35,22 @@ public class LoginActivity extends Activity {
         setupUI();
     }
 
-    private void setupUI() {
-        loginText = (EditText) findViewById(R.id.login_text);
-        passwordText = (EditText) findViewById(R.id.password_text);
-        loginBtn = (Button) findViewById(R.id.login_btn);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
         checkSavedData();
     }
 
+    private void setupUI() {
+        loginText = (EditText) findViewById(R.id.login_text);
+        passwordText = (EditText) findViewById(R.id.password_text);
+        loginBtn = (Button) findViewById(R.id.login_btn);
+    }
+
     private void login() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Login...");
+        pd.setCancelable(false);
         pd.show();
 
         final String login = loginText.getText().toString();
@@ -89,6 +90,7 @@ public class LoginActivity extends Activity {
 
         final ProgressDialog loading = new ProgressDialog(this);
         loading.setMessage("Loading...");
+        loading.setCancelable(false);
         loading.show();
 
         RestClient.getInstance()

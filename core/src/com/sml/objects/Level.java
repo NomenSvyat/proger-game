@@ -34,7 +34,7 @@ public class Level implements GameObject, IBackgroundCode, PlayerLifeManager.OnL
     private boolean gameOver = false;
 
 
-    public void init(ICodeRepository repository) {
+    public void init(ICodeRepository repository, float v) {
 
         /** Loading font(s) */
         font = new BitmapFont(Gdx.files.internal("numberFont.fnt"));
@@ -49,7 +49,7 @@ public class Level implements GameObject, IBackgroundCode, PlayerLifeManager.OnL
 
         uiPlayerLife = new UIPlayerLife(screenWidth - 100.0f, screenHeight - 100.0f);
 
-        backgroundCode = new BackgroundCode(font, screenWidth / 2, this, repository);
+        backgroundCode = new BackgroundCode(font, v, this, repository);
     }
 
     @Override

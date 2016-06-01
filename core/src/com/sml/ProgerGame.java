@@ -62,7 +62,6 @@ public class ProgerGame extends ApplicationAdapter {
         menu.init();
 
         level = new Level();
-        level.init(codeRepository);
 
         playerLifeManager = new PlayerLifeManager(level);
         playerCollisionListener = new PlayerCollisionListener(playerLifeManager);
@@ -82,10 +81,11 @@ public class ProgerGame extends ApplicationAdapter {
         disposables.add(debugRenderer);
 
         playerActor = new PlayerActor(world, new Vector2(10, 240));
+        level.init(codeRepository, playerActor.getCenterX());
         disposables.add(playerActor);
 
 
-        createVerticalMargins(world);
+//        createVerticalMargins(world);
 
         bugs = new Bugs(world, camera);
 
@@ -125,7 +125,7 @@ public class ProgerGame extends ApplicationAdapter {
 
             doPhysicsStep(deltaTime);
 
-            debugRenderer.render(world, camera.combined);
+//            debugRenderer.render(world, camera.combined);
         }
     }
 
@@ -151,7 +151,6 @@ public class ProgerGame extends ApplicationAdapter {
     }
 
     private void createVerticalMargins(World world) {
-        if (true) return;
         BodyDef floorDef = new BodyDef();
         floorDef.type = BodyDef.BodyType.StaticBody;
         floorDef.position.set(0, 10);
