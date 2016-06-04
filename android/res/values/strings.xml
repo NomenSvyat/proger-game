@@ -2,5 +2,13 @@
 <resources>
 
     <string name="app_name">proger-game</string>
+    <string name="password_hint">Password</string>
+    <string name="login_btn_text">Login via Github</string>
+    <string name="login_hint">Login</string>
+
+    <string name="bad_credentials_message">
+        Please, fill username and password!
+    </string>
+    <string name="score_label">YOUR SCORE IS:</string>
 
 </resources>
